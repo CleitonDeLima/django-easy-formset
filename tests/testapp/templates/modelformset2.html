@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Formset tests</title>
+</head>
+<body>
+  <h1>modelformset</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div id="{{ formset.prefix }}">
+      {{ formset.management_form }}
+
+      <template formset-empty-form>
+        {{ formset.empty_form.as_p }}
+        <button formset-form-delete>Delete</button>
+      </template>
+
+      <div formset-forms>
+        {% for form in formset.forms %}
+          <div formset-form>
+            {{ form.as_p }}
+            <button formset-form-delete>Delete</button>
+          </div>
+        {% endfor %}
+      </div>
+
+      <hr>
+      <button formset-add>Add</button>
+    </div>
+
+    <hr>
+    <button type="submit" id="btn-submit">Submit</button>
+  </form>
+
+  <script src="{% static 'easy_formset/easy_formset.js' %}"></script>
+  <script>
+    const formset = new Formset("{{ formset.prefix }}")
+  </script>
+</body>
+</html>

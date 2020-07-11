@@ -7,6 +7,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from tests.testapp.models import Animal
 
 
+@pytest.fixture
+def animals(db):
+    return [
+        Animal.objects.create(name=f"animal {i}", bio="is fun")
+        for i in range(2)
+    ]
+
+
 class TestsMixin:
     def get_total_forms(self, prefix, container):
         return container.find_element_by_css_selector(
@@ -143,13 +151,6 @@ class TestFormset(TestsMixin):
 class TestModelFormset(TestsMixin):
     url = resolve_url("modelformset")
 
-    @pytest.fixture
-    def animals(self, db):
-        return [
-            Animal.objects.create(name=f"animal {i}", bio="is fun")
-            for i in range(2)
-        ]
-
     def test_delete_with_id_filled(self, live_server, driver, animals):
         driver.get(live_server.url + self.url)
         prefix = "animal1"
@@ -193,3 +194,26 @@ class TestModelFormset(TestsMixin):
         form1 = forms[0]
         chk1 = form1.find_element_by_css_selector("[name$=-DELETE]")
         assert chk1.get_attribute("checked") is None
+
+
+class TestModelFormsetSubmit(TestsMixin):
+    url = resolve_url("modelformset2")
+
+    def test_submit_delete(self, live_server, driver, animals):
+        driver.get(live_server.url + self.url)
+        prefix = "animal"
+        container = driver.find_element_by_id(prefix)
+
+        form1, form2 = self.get_forms(container)
+        btn1 = form1.find_element_by_css_selector("[formset-form-delete]")
+        btn2 = form2.find_element_by_css_selector("[formset-form-delete]")
+
+        btn1.click()
+        btn2.click()
+
+        btn_submit = driver.find_element_by_id("btn-submit")
+        btn_submit.click()
+
+        container = driver.find_element_by_id(prefix)
+        forms = self.get_forms(container)
+        assert len(forms) == 0
