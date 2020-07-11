@@ -51,7 +51,7 @@ class Formset {
 
       // create restore link
       const link = document.createElement("a")
-      link.text = "Reverter"
+      link.text = "Restore"
       link.setAttribute("href", "#")
       link.setAttribute("formset-restore", "")
       link.addEventListener("click", this.handleRestore.bind(this))
@@ -84,6 +84,7 @@ class Formset {
     form.querySelector("[formset-restore]").remove()
     this.showOrHiddenChildren(form, false)
 
+    form.querySelector("[name$=-DELETE]").checked = false
     form.removeAttribute("formset-form-excluded")
     form.setAttribute("formset-form", "")
   }

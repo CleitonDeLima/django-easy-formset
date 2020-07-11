@@ -155,22 +155,24 @@ class TestModelFormset(TestsMixin):
         prefix = "animal1"
         container = driver.find_element_by_id(prefix)
 
-        form1, form2, _ = self.get_forms(container)
+        form1, form2, form3 = self.get_forms(container)
         btn1 = form1.find_element_by_css_selector("[formset-form-delete]")
         btn2 = form2.find_element_by_css_selector("[formset-form-delete]")
+        btn3 = form3.find_element_by_css_selector("[formset-form-delete]")
 
         btn1.click()
         btn2.click()
+        btn3.click()
 
-        assert self.get_total_forms(prefix, container) == '3'
+        assert self.get_total_forms(prefix, container) == '2'
 
         form1, form2 = container.find_elements_by_css_selector(
             "[formset-form-excluded]"
         )
         chk1 = form1.find_element_by_css_selector("[name$=-DELETE]")
         chk2 = form2.find_element_by_css_selector("[name$=-DELETE]")
-        assert chk1.get_attribute("checked")
-        assert chk2.get_attribute("checked")
+        assert chk1.get_attribute("checked") == "true"
+        assert chk2.get_attribute("checked") == "true"
 
         restore_link = (
             WebDriverWait(driver, 60).until(
@@ -186,4 +188,8 @@ class TestModelFormset(TestsMixin):
         )
         forms = self.get_forms(container)
         assert len(excluded_forms) == 1
-        assert len(forms) == 2
+        assert len(forms) == 1
+
+        form1 = forms[0]
+        chk1 = form1.find_element_by_css_selector("[name$=-DELETE]")
+        assert chk1.get_attribute("checked") is None

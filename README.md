@@ -3,6 +3,7 @@
 Django Formsets with ECMAScript 6
 
 ![Python tests](https://github.com/CleitonDeLima/django-easy-formset/workflows/Python%20tests/badge.svg)
+![Upload Python Package](https://github.com/CleitonDeLima/django-easy-formset/workflows/Upload%20Python%20Package/badge.svg)
 
 # Installation
 
