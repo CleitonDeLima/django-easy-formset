@@ -178,7 +178,7 @@ class TestModelFormset(TestsMixin):
         restore_link = (
             WebDriverWait(driver, 60).until(
                 expected_conditions.presence_of_element_located(
-                    (By.CSS_SELECTOR, "[formset-restore]")
+                    (By.CSS_SELECTOR, "[formset-revert]")
                 )
             )
         )

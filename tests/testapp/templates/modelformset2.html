@@ -9,7 +9,7 @@
   <title>Formset tests</title>
 </head>
 <body>
-  <h1>modelformset</h1>
+  <h1>ModelFormset</h1>
 
   <form method="post">
     {% csrf_token %}
@@ -22,6 +22,9 @@
         <button formset-form-delete>Delete</button>
       </template>
 
+      <button formset-add>Add Form</button>
+      <hr>
+
       <div formset-forms>
         {% for form in formset.forms %}
           <div formset-form>
@@ -30,9 +33,6 @@
           </div>
         {% endfor %}
       </div>
-
-      <hr>
-      <button formset-add>Add</button>
     </div>
 
     <hr>

@@ -1,4 +1,6 @@
 class Formset {
+  static revertHTML = '<a href="#">Revert</a>'
+
   constructor(prefix) {
     this.prefix = prefix
     this.container = document.getElementById(this.prefix)
@@ -49,14 +51,12 @@ class Formset {
 
       this.showOrHiddenChildren(form, true)
 
-      // create restore link
-      const link = document.createElement("a")
-      link.text = "Restore"
-      link.setAttribute("href", "#")
-      link.setAttribute("formset-restore", "")
-      link.addEventListener("click", this.handleRestore.bind(this))
+      // create revert element
+      const revertElement = this.createElement(Formset.revertHTML)
+      revertElement.setAttribute("formset-revert", "")
+      revertElement.addEventListener("click", this.handleRestore.bind(this))
 
-      form.append(link)
+      form.append(revertElement)
       form.setAttribute("formset-form-excluded", "")
       form.removeAttribute("formset-form")
 
@@ -81,7 +81,7 @@ class Formset {
     event.preventDefault()
 
     const form = event.target.closest("[formset-form-excluded]")
-    form.querySelector("[formset-restore]").remove()
+    form.querySelector("[formset-revert]").remove()
     this.showOrHiddenChildren(form, false)
 
     form.querySelector("[name$=-DELETE]").checked = false
@@ -125,6 +125,12 @@ class Formset {
     if (el.name) {
       el.name = el.name.replace(idRegex, replacement);
     }
+  }
+
+  createElement(stringHTML) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(stringHTML, "text/html");
+    return doc.body.firstElementChild;
   }
 
   get totalForms() {

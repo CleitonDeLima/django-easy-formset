@@ -26,6 +26,11 @@ INSTALLED_APPS = [
 
 # How to use
 
+## Video
+[![Video](https://img.youtube.com/vi/TTXwUOZY_y4/0.jpg)](https://www.youtube.com/watch?v=TTXwUOZY_y4)
+
+
+## In template
 ```djangotemplate
 {% load static %}
 ...
@@ -55,6 +60,16 @@ INSTALLED_APPS = [
 </script>
 ...
 ```
+
+## Custom revert element
+
+```js
+// add one root element...
+Formset.revertHTML = '<a href="#">Custom revert link...</a>'
+
+const formset = new Formset("{{ formset.prefix }}")
+```
+
 
 # Run tests
 ```bash

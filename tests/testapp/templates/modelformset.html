@@ -6,9 +6,7 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>Formset tests</title>
-  <link rel="stylesheet" href="{% static 'easy_formset/easy_formset.css' %}">
 </head>
 <body>
   <h1>modelformset</h1>
@@ -18,18 +16,14 @@
 
       <template formset-empty-form>
         {{ formset.empty_form.as_p }}
-        <a formset-form-delete>
-          <i class="fa fa-trash-o" aria-hidden="true"></i>
-        </a>
+        <a formset-form-delete>Delete</a>
       </template>
 
       <div formset-forms>
         {% for form in formset.forms %}
           <div formset-form>
             {{ form.as_p }}
-            <a formset-form-delete>
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </a>
+            <a formset-form-delete>Delete</a>
           </div>
         {% endfor %}
       </div>
