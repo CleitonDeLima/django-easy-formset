@@ -24,6 +24,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
+    - name: Install Chrome
+      run: sudo apt-get install -y google-chrome-stable
+    - name: Install Selenium
+      run: |
+        mkdir bin
+        curl -O https://chromedriver.storage.googleapis.com/77.0.3865.40/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip -d bin
     - name: Test with pytest
       run: |
         pytest
