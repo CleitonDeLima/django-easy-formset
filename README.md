@@ -2,6 +2,8 @@
 
 Django Formsets with ECMAScript 6
 
+![Python tests](https://github.com/CleitonDeLima/django-easy-formset/workflows/Python%20tests/badge.svg)
+
 # Installation
 
 Installation is easy using pip and the only requirement is a recent version of Django.
