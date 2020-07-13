@@ -7,6 +7,12 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Formset tests</title>
+  <style>
+    .row {
+      display: block;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'easy_formset/easy_formset.css' %}">
 </head>
 <body>
   <h1>ModelFormset</h1>
@@ -28,8 +34,10 @@
       <div formset-forms>
         {% for form in formset.forms %}
           <div formset-form>
-            {{ form.as_p }}
-            <button formset-form-delete>Delete</button>
+            <div class="row">
+              {{ form.as_p }}
+              <button formset-form-delete>Delete</button>
+            </div>
           </div>
         {% endfor %}
       </div>
