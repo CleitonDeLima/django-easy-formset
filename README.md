@@ -33,32 +33,34 @@ INSTALLED_APPS = [
 ## In template
 ```djangotemplate
 {% load static %}
-...
-<div id="{{ formset.prefix }}">
-  {{ formset.management_form }}
+<head>
+  <link rel="stylesheet" href="{% static 'easy_formset/easy_formset.css' %}">
+</head>
+<body>
+  <div id="{{ formset.prefix }}">
+    {{ formset.management_form }}
 
-  <template formset-empty-form>
-    {{ formset.empty_form.as_p }}
-    <a formset-form-delete>Delete</a>
-  </template>
+    <template formset-empty-form>
+      {{ formset.empty_form.as_p }}
+      <a formset-form-delete>Delete</a>
+    </template>
 
-  <div formset-forms>
-    {% for form in formset.forms %}
-      <div formset-form>
-        {{ form.as_p }}
-        <a formset-form-delete>Delete</a>
-      </div>
-    {% endfor %}
+    <div formset-forms>
+      {% for form in formset.forms %}
+        <div formset-form>
+          {{ form.as_p }}
+          <a formset-form-delete>Delete</a>
+        </div>
+      {% endfor %}
+    </div>
+    <button formset-add>Add Formset</button>
   </div>
-
-  <button formset-add>Add Formset</button>
-</div>
-
-<script src="{% static 'easy_formset/easy_formset.js' %}"></script>
-<script>
-  const formset = new Formset("{{ formset.prefix }}")
-</script>
-...
+  ...
+  <script src="{% static 'easy_formset/easy_formset.js' %}"></script>
+  <script>
+    const formset = new Formset("{{ formset.prefix }}")
+  </script>
+</body>
 ```
 
 ## Custom revert element
