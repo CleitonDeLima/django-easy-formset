@@ -63,11 +63,11 @@ INSTALLED_APPS = [
 </body>
 ```
 
-## Custom revert element
+## Custom undo element
 
 ```js
 // add one root element...
-Formset.revertHTML = '<a href="#">Custom revert link...</a>'
+Formset.revertHTML = '<a href="#">Custom undo link...</a>'
 
 const formset = new Formset("{{ formset.prefix }}")
 ```
