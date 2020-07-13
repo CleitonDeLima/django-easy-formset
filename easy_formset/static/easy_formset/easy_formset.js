@@ -1,5 +1,5 @@
 class Formset {
-  static revertHTML = '<a href="#">Revert</a>'
+  static undoHTML = '<a href="#">Undo</a>'
 
   constructor(prefix) {
     this.prefix = prefix
@@ -51,9 +51,9 @@ class Formset {
 
       this.showOrHiddenChildren(form, true)
 
-      // create revert element
-      const revertElement = this.createElement(Formset.revertHTML)
-      revertElement.setAttribute("formset-revert", "")
+      // create undo element
+      const revertElement = this.createElement(Formset.undoHTML)
+      revertElement.setAttribute("formset-undo", "")
       revertElement.addEventListener("click", this.handleRestore.bind(this))
 
       form.append(revertElement)
@@ -81,7 +81,7 @@ class Formset {
     event.preventDefault()
 
     const form = event.target.closest("[formset-form-excluded]")
-    form.querySelector("[formset-revert]").remove()
+    form.querySelector("[formset-undo]").remove()
     this.showOrHiddenChildren(form, false)
 
     form.querySelector("[name$=-DELETE]").checked = false
