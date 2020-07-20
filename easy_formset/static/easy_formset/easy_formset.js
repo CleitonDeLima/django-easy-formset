@@ -8,9 +8,7 @@ class Formset {
     this.addButton = this.container.querySelector("[formset-add]")
     this.formsContainer = this.container.querySelector("[formset-forms]")
     this.emptyForm = this.container.querySelector("[formset-empty-form]")
-
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
-
     // add handleDelete in forms
     this.forms.forEach(form => this.updateDeleteButton(form))
   }
@@ -37,6 +35,9 @@ class Formset {
     this.totalForms++
 
     this.updateButtons()
+
+    const addEvent = new CustomEvent("formset:add", { detail: { form: newForm } })
+    document.dispatchEvent(addEvent)
   }
 
   handleDelete(event) {
@@ -45,6 +46,11 @@ class Formset {
     if (this.minForms === this.totalForms) return
 
     const form = event.target.closest("[formset-form]")
+
+    const deletedEvent = new CustomEvent("formset:deleted", {
+      detail: { form: form }
+    })
+    document.dispatchEvent(deletedEvent)
 
     // checkbox when field id is filled
     const id = form.querySelector("[name$=-id]")
@@ -100,7 +106,7 @@ class Formset {
     const hasDelete = checkDelete !== null
 
     if (labelDelete)
-        labelDelete.hidden = true
+      labelDelete.hidden = true
 
     if (hasDelete) {
       btnDel.addEventListener("click", this.handleDelete.bind(this))
