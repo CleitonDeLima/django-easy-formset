@@ -49,3 +49,10 @@ def modelformset_view2(request):
     return render(request, 'modelformset2.html', {
         'formset': formset
     })
+
+
+def formsetevents_view(request):
+    formset_class = forms.formset_factory(AnimalForm, extra=1, can_delete=True)
+    formset = formset_class(prefix='animal')
+
+    return render(request, 'formset_events.html', {'formset': formset})

@@ -1,0 +1,48 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Formset tests events</title>
+  <link rel="stylesheet" href="{% static 'easy_formset/easy_formset.css' %}">
+</head>
+<body>
+  <div id="{{ formset.prefix }}">
+    {{ formset.management_form }}
+
+    <template formset-empty-form>
+      {{ formset.empty_form.as_p }}
+      <a formset-form-delete href="#">Delete</a>
+    </template>
+
+    <div formset-forms>
+      {% for form in formset.forms %}
+        <div formset-form>
+          {{ form.as_p }}
+          <a formset-form-delete href="#">Delete</a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button formset-add>Add</button>
+  </div>
+
+  <script src="{% static 'easy_formset/easy_formset.js' %}"></script>
+  <script>
+    const formset = new Formset("{{ formset.prefix }}")
+
+    document.addEventListener('formset:add', (event) => {
+      console.log(event.detail.form)
+      alert('hi, i am formset:add event!')
+    })
+
+    document.addEventListener('formset:deleted', (event) => {
+      console.log(event.detail.form)
+      alert('hi, i am formset:deleted event!')
+    })
+  </script>
+</body>
+</html>

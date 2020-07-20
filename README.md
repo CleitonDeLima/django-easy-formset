@@ -72,6 +72,18 @@ Formset.revertHTML = '<a href="#">Custom undo link...</a>'
 const formset = new Formset("{{ formset.prefix }}")
 ```
 
+## Handle add/deleted events
+
+```javascript
+document.addEventListener('formset:add', (event) => {
+  // access the form with event.detail.form
+})
+
+document.addEventListener('formset:deleted', (event) => {
+  // access the form with event.detail.form
+})
+```
+
 
 # Run tests
 ```bash

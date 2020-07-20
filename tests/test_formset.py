@@ -222,3 +222,27 @@ class TestModelFormsetSubmit(TestsMixin):
         container = driver.find_element_by_id(prefix)
         forms = self.get_forms(container)
         assert len(forms) == 0
+
+
+class TestFormsetEvents:
+    url = resolve_url('formset-events')
+
+    def test_add_event(self, live_server, driver):
+        driver.get(live_server.url + self.url)
+        container = driver.find_element_by_id('animal')
+        btn = container.find_element_by_css_selector("[formset-add]")
+        btn.click()
+
+        alert = driver.switch_to.alert
+        assert alert.text == "hi, i am formset:add event!"
+        alert.accept()
+
+    def test_delete_event(self, live_server, driver):
+        driver.get(live_server.url + self.url)
+        container = driver.find_element_by_id('animal')
+        btn = container.find_element_by_css_selector("[formset-form-delete]")
+        btn.click()
+
+        alert = driver.switch_to.alert
+        assert alert.text == "hi, i am formset:deleted event!"
+        alert.accept()
