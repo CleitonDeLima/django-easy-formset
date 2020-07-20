@@ -35,6 +35,8 @@ class Formset {
     this.formsContainer.appendChild(newForm)
 
     this.totalForms++
+
+    this.updateButtons()
   }
 
   handleDelete(event) {
@@ -75,6 +77,8 @@ class Formset {
         this.updateElementIndex(el, this.prefix, idx)
       })
     })
+
+    this.updateButtons()
   }
 
   handleRestore(event) {
@@ -104,6 +108,14 @@ class Formset {
     } else {
       btnDel.hidden = true
     }
+  }
+
+  updateButtons() {
+    this.addButton.hidden = this.maxForms === this.totalForms
+
+    this.forms.forEach(form => {
+      form.querySelector("[formset-form-delete]").hidden = this.minForms === this.totalForms
+    })
   }
 
   showOrHiddenChildren(form, hidden) {

@@ -98,6 +98,8 @@ class TestFormset(TestsMixin):
     def test_undelete_with_min_num(self, live_server, driver):
         driver.get(live_server.url + self.url)
         prefix = "animal2"
+
+        # starts with 2 forms
         container = driver.find_element_by_id(prefix)
 
         min_num = self.get_min_num_forms(prefix, container)
@@ -105,16 +107,20 @@ class TestFormset(TestsMixin):
 
         form1, form2 = self.get_forms(container)
 
-        form1.find_element_by_css_selector("[formset-form-delete]").click()
-        form2.find_element_by_css_selector("[formset-form-delete]").click()
+        del1 = form1.find_element_by_css_selector("[formset-form-delete]")
+        del2 = form2.find_element_by_css_selector("[formset-form-delete]")
+        del2.click()
 
         total_forms = self.get_total_forms(prefix, container)
         assert total_forms == '1'
         assert len(self.get_forms(container)) == 1
+        assert del1.get_attribute('hidden') == 'true'
 
     def test_unadded_with_max_num(self, live_server, driver):
         driver.get(live_server.url + self.url)
         prefix = "animal2"
+
+        # starts with 2 forms
         container = driver.find_element_by_id(prefix)
 
         max_num = self.get_max_num_forms(prefix, container)
@@ -125,12 +131,11 @@ class TestFormset(TestsMixin):
         # clicking in add button
         btn.click()
         btn.click()
-        btn.click()
-        btn.click()
 
         total_forms = self.get_total_forms(prefix, container)
         assert total_forms == '4'
         assert len(self.get_forms(container)) == 4
+        assert btn.get_attribute('hidden') == 'true'
 
     def test_hidden_delete(self, live_server, driver):
         driver.get(live_server.url + self.url)
