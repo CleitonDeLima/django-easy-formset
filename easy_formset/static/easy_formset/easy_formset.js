@@ -11,6 +11,8 @@ class Formset {
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
     // add handleDelete in forms
     this.forms.forEach(form => this.updateDeleteButton(form))
+
+    this.updateButtons()
   }
 
   handleAdd(event) {
@@ -101,18 +103,12 @@ class Formset {
 
   updateDeleteButton(form) {
     const checkDelete = form.querySelector("[name$=-DELETE]")
-    const labelDelete = form.querySelector("[for$=-DELETE]")
     const btnDel = form.querySelector("[formset-form-delete]")
     const hasDelete = checkDelete !== null
-
-    if (labelDelete)
-      labelDelete.hidden = true
 
     if (hasDelete) {
       btnDel.addEventListener("click", this.handleDelete.bind(this))
       checkDelete.hidden = true
-    } else {
-      btnDel.hidden = true
     }
   }
 
@@ -120,7 +116,14 @@ class Formset {
     this.addButton.hidden = this.maxForms === this.totalForms
 
     this.forms.forEach(form => {
-      form.querySelector("[formset-form-delete]").hidden = this.minForms === this.totalForms
+      const checkDelete = form.querySelector("[name$=-DELETE]")
+      const labelDelete = form.querySelector("[for$=-DELETE]")
+      const hasDelete = checkDelete !== null
+
+      if (labelDelete)
+        labelDelete.hidden = true
+
+      form.querySelector("[formset-form-delete]").hidden = this.minForms === this.totalForms || !hasDelete
     })
   }
 
