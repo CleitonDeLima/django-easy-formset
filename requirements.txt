@@ -2,3 +2,4 @@ Django==3.0.8
 pytest==5.4.2
 pytest-django==3.9.0
 selenium==3.141.0
+black

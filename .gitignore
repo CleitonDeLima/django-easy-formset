@@ -311,5 +311,6 @@ dist
 
 # Ide's
 .idea
+.vscode
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,node
