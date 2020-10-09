@@ -14,7 +14,7 @@ python -m pip install django-easy-formset
 ```
 
 ## Basic app configuration
-Then to add the Django Easy Formset to your project add the app `easy_formset` to 
+Then to add the Django Easy Formset to your project add the app `easy_formset` to
 your `INSTALLED_APPS`.
 
 ```python
@@ -83,6 +83,10 @@ document.addEventListener('formset:deleted', (event) => {
   // access the form with event.detail.form
 })
 ```
+
+## Nested formsets
+
+See examples in `tests.testapp`.
 
 
 # Run tests

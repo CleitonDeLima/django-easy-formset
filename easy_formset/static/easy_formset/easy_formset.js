@@ -3,16 +3,21 @@ class Formset {
 
   constructor(prefix) {
     this.prefix = prefix
+    this.nested = []
+
     this.container = document.getElementById(this.prefix)
+
+    if (this.container === null) throw Error(`Formset prefix "${this.prefix}" not exists.`)
 
     this.addButton = this.container.querySelector("[formset-add]")
     this.formsContainer = this.container.querySelector("[formset-forms]")
     this.emptyForm = this.container.querySelector("[formset-empty-form]")
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
-    // add handleDelete in forms
+
+    // add handleDelete and index in forms
     this.forms.forEach(form => this.updateDeleteButton(form))
 
-    this.updateButtons()
+    this.updateForms()
   }
 
   handleAdd(event) {
@@ -36,7 +41,7 @@ class Formset {
 
     this.totalForms++
 
-    this.updateButtons()
+    this.updateForms()
 
     const addEvent = new CustomEvent("formset:add", { detail: { form: newForm } })
     document.dispatchEvent(addEvent)
@@ -86,7 +91,7 @@ class Formset {
       })
     })
 
-    this.updateButtons()
+    this.updateForms()
   }
 
   handleRestore(event) {
@@ -112,7 +117,7 @@ class Formset {
     }
   }
 
-  updateButtons() {
+  updateForms() {
     this.addButton.hidden = this.maxForms === this.totalForms
 
     this.forms.forEach(form => {
@@ -124,6 +129,22 @@ class Formset {
         labelDelete.hidden = true
 
       form.querySelector("[formset-form-delete]").hidden = this.minForms === this.totalForms || !hasDelete
+
+      this.instanceNested(form)
+    })
+  }
+
+  instanceNested(form) {
+    const formsets = form.querySelectorAll("[formset-is-nested]") // TODO: get one level
+    if (formsets === null) return
+
+    formsets.forEach(formset => {
+      const nestedPrefix = formset.getAttribute("id")
+      const hasInstance = Boolean(this.nested.filter(f => f.prefix === nestedPrefix).length)
+
+      if (!hasInstance) {
+        this.nested.push(new Formset(nestedPrefix))
+      }
     })
   }
 
@@ -132,7 +153,7 @@ class Formset {
   }
 
   updateElementIndex(el, prefix, newIdx) {
-    const idRegex = new RegExp(`(${prefix}-(\\d+|__prefix__))`)
+    const idRegex = new RegExp(`(${prefix}-(\\d+|__prefix__))`, "g")
     const replacement = `${prefix}-${newIdx}`
 
     if (el.hasAttribute("for")) {
@@ -145,6 +166,10 @@ class Formset {
     }
     if (el.name) {
       el.name = el.name.replace(idRegex, replacement);
+    }
+
+    if (el instanceof HTMLTemplateElement) {
+      el.innerHTML = el.innerHTML.replace(idRegex, replacement)
     }
   }
 
@@ -174,6 +199,6 @@ class Formset {
   }
 
   get forms() {
-    return this.formsContainer.querySelectorAll("[formset-form]")
+    return this.formsContainer.querySelectorAll(":scope > [formset-form]")
   }
 }

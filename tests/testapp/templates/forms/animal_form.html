@@ -1,0 +1,35 @@
+<fieldset>
+  <legend>Animal</legend>
+  <div class="row">
+    <div class="fieldWrapper">
+      {{ form.name.errors }}
+      {{ form.name.label_tag }}
+      {{ form.name }}
+    </div>
+
+    <div class="fieldWrapper">
+      {{ form.bio.errors }}
+      {{ form.bio.label_tag }}
+      {{ form.bio }}
+    </div>
+    {{ form.id }}
+    {{ form.DELETE }}
+
+    <div class="row">
+      <button formset-form-delete>Delete</button>
+    </div>
+  </div>
+
+  {% if form.thing %}
+    <div class="row" style="border: 1px solid; padding: 15px 5px; margin: 10px 0;">
+      {% include 'formsets/things_formset.html' with formset=form.thing %}
+    </div>
+  {% endif %}
+
+  {% if form.food %}
+    <div class="row" style="border: 1px solid; padding: 15px 5px; margin: 10px 0;">
+      {% include 'formsets/food_formset.html' with formset=form.food %}
+    </div>
+  {% endif %}
+</fieldset>
+

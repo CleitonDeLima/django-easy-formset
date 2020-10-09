@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>NestedFormset tests</title>
+  <style>
+    .row {
+      display: block;
+    }
+  </style>
+  <link rel="stylesheet" href="{% static 'easy_formset/easy_formset.css' %}">
+</head>
+<body>
+  <h1>NestedFormset</h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div id="{{ formset.prefix }}">
+      {{ formset.management_form }}
+
+      <template formset-empty-form>
+        {% include "forms/animal_form.html" with form=formset.empty_form %}
+      </template>
+
+      <button formset-add>Add Form</button>
+      <hr>
+      {{ formset.non_form_errors }}
+
+      <div formset-forms>
+        {% for form in formset.forms %}
+          <div formset-form>
+            {% include "forms/animal_form.html" with form=form %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <hr>
+    <button type="submit" id="btn-submit">Submit</button>
+  </form>
+
+  <script src="{% static 'easy_formset/easy_formset.js' %}"></script>
+  <script>
+    const formset = new Formset("{{ formset.prefix }}")
+  </script>
+</body>
+</html>
