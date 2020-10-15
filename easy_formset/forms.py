@@ -53,7 +53,12 @@ class NestedFormsetMixin:
 
     @property
     def media(self):
-        return self.empty_form.media + self.empty_form.nested.media
+        media = self.empty_form.media
+        for name in self.nested_names:
+            if hasattr(self.empty_form, name):
+                media += getattr(self.empty_form, name).media
+
+        return media
 
 
 class NestedModelFormset(NestedFormsetMixin, BaseModelFormSet):
