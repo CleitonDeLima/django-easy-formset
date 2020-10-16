@@ -1,15 +1,17 @@
 <div id="{{ formset.prefix }}" formset-is-nested>
   {{ formset.management_form }}
-  <button formset-add>Add Thing</button>
+
+  <button formset-add="{{ formset.prefix }}">Add Thing</button>
+
   <h5>{{ formset.prefix }}</h5>
   {{ formset.non_form_errors }}
-  <template formset-empty-form>
+  <template formset-empty-form="{{ formset.prefix }}">
     {% include "forms/thing_form.html" with form=formset.empty_form %}
   </template>
 
   <hr>
 
-  <div formset-forms>
+  <div formset-forms="{{ formset.prefix }}">
     {% for form in formset.forms %}
       <div formset-form>
         {% include "forms/thing_form.html" with form=form %}

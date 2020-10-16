@@ -23,15 +23,15 @@
     <div id="{{ formset.prefix }}">
       {{ formset.management_form }}
 
-      <template formset-empty-form>
+      <template formset-empty-form="{{ formset.prefix }}">
         {{ formset.empty_form.as_p }}
         <button formset-form-delete>Delete</button>
       </template>
 
-      <button formset-add>Add Form</button>
+      <button formset-add="{{ formset.prefix }}">Add Form</button>
       <hr>
 
-      <div formset-forms>
+      <div formset-forms="{{ formset.prefix }}">
         {% for form in formset.forms %}
           <div formset-form>
             <div class="row">

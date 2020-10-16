@@ -77,8 +77,9 @@ def nestedmodelformset_view(request):
 
 
 class PersonFormset(NestedInlineFormSet):
-    nested_formset = forms.inlineformset_factory(Person, Address, fields="__all__")
-    nested_formset_prefix = "person"
+    nested = {
+        "addresses": forms.inlineformset_factory(Person, Address, fields="__all__")
+    }
 
 
 class HomeView(DetailView):

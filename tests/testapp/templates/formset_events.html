@@ -13,12 +13,12 @@
   <div id="{{ formset.prefix }}">
     {{ formset.management_form }}
 
-    <template formset-empty-form>
+    <template formset-empty-form="{{ formset.prefix }}">
       {{ formset.empty_form.as_p }}
       <a formset-form-delete href="#">Delete</a>
     </template>
 
-    <div formset-forms>
+    <div formset-forms="{{ formset.prefix }}">
       {% for form in formset.forms %}
         <div formset-form>
           {{ form.as_p }}
@@ -27,7 +27,7 @@
       {% endfor %}
     </div>
 
-    <button formset-add>Add</button>
+    <button formset-add="{{ formset.prefix }}">Add</button>
   </div>
 
   <script src="{% static 'easy_formset/easy_formset.js' %}"></script>

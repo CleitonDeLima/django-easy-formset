@@ -9,9 +9,9 @@ class Formset {
 
     if (this.container === null) throw Error(`Formset prefix "${this.prefix}" not exists.`)
 
-    this.addButton = this.container.querySelector("[formset-add]")
-    this.formsContainer = this.container.querySelector("[formset-forms]")
-    this.emptyForm = this.container.querySelector("[formset-empty-form]")
+    this.addButton = this.container.querySelector(`[formset-add=${this.prefix}]`)
+    this.formsContainer = this.container.querySelector(`[formset-forms=${this.prefix}]`)
+    this.emptyForm = this.container.querySelector(`[formset-empty-form=${this.prefix}]`)
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
 
     // add handleDelete and index in forms

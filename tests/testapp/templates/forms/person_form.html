@@ -16,10 +16,10 @@
     </div>
   </div>
 
-  {% if form.nested %}
+  {% if form.addresses %}
     <fieldset>
       <legend>Address</legend>
-      {% include 'formsets/address_formset.html' with formset=form.nested %}
+      {% include 'formsets/address_formset.html' with formset=form.addresses %}
     </fieldset>
   {% endif %}
 </fieldset>

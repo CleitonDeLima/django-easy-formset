@@ -40,12 +40,12 @@ INSTALLED_APPS = [
   <div id="{{ formset.prefix }}">
     {{ formset.management_form }}
 
-    <template formset-empty-form>
+    <template formset-empty-form="{{ formset.prefix }}">
       {{ formset.empty_form.as_p }}
       <a formset-form-delete>Delete</a>
     </template>
 
-    <div formset-forms>
+    <div formset-forms="{{ formset.prefix }}">
       {% for form in formset.forms %}
         <div formset-form>
           {{ form.as_p }}
@@ -53,7 +53,7 @@ INSTALLED_APPS = [
         </div>
       {% endfor %}
     </div>
-    <button formset-add>Add Formset</button>
+    <button formset-add="{{ formset.prefix }}">Add Formset</button>
   </div>
   ...
   <script src="{% static 'easy_formset/easy_formset.js' %}"></script>
