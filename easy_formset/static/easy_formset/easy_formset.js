@@ -1,5 +1,8 @@
 class Formset {
   static undoHTML = '<a href="#">Undo</a>'
+  static FORMSET_ADD = "formset-add"
+  static FORMSET_FORMS = "formset-forms"
+  static FORMSET_EMPTY_FORM = "formset-empty-form"
 
   constructor(prefix) {
     this.prefix = prefix
@@ -9,9 +12,9 @@ class Formset {
 
     if (this.container === null) throw Error(`Formset prefix "${this.prefix}" not exists.`)
 
-    this.addButton = this.container.querySelector(`[formset-add=${this.prefix}]`)
-    this.formsContainer = this.container.querySelector(`[formset-forms=${this.prefix}]`)
-    this.emptyForm = this.container.querySelector(`[formset-empty-form=${this.prefix}]`)
+    this.addButton = this.container.querySelector(`[${Formset.FORMSET_ADD}=${this.prefix}]`)
+    this.formsContainer = this.container.querySelector(`[${Formset.FORMSET_FORMS}=${this.prefix}]`)
+    this.emptyForm = this.container.querySelector(`[${Formset.FORMSET_EMPTY_FORM}=${this.prefix}]`)
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
 
     // add handleDelete and index in forms
@@ -165,12 +168,21 @@ class Formset {
       el.id = el.id.replace(idRegex, replacement)
     }
     if (el.name) {
-      el.name = el.name.replace(idRegex, replacement);
+      el.name = el.name.replace(idRegex, replacement)
     }
 
     if (el instanceof HTMLTemplateElement) {
       el.innerHTML = el.innerHTML.replace(idRegex, replacement)
     }
+
+    [
+      Formset.FORMSET_ADD,
+      Formset.FORMSET_EMPTY_FORM,
+      Formset.FORMSET_FORMS
+    ].forEach(attr => {
+      if (el.hasAttribute(attr))
+        el.setAttribute(attr, el.getAttribute(attr).replace(idRegex, replacement))
+    })
   }
 
   createElement(stringHTML) {
