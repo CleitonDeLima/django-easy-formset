@@ -11,9 +11,6 @@
     {{ form.id }}
     {{ form.DELETE }}
 
-    <div class="row">
-      <button formset-form-delete>Delete</button>
-    </div>
   </div>
 
   {% if form.addresses %}
@@ -22,4 +19,8 @@
       {% include 'formsets/address_formset.html' with formset=form.addresses %}
     </fieldset>
   {% endif %}
+
+  <div class="row">
+    <button formset-form-delete="{{ form.prefix }}">Delete</button>
+  </div>
 </fieldset>

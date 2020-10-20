@@ -3,6 +3,7 @@ class Formset {
   static FORMSET_ADD = "formset-add"
   static FORMSET_FORMS = "formset-forms"
   static FORMSET_EMPTY_FORM = "formset-empty-form"
+  static FORMSET_DELETE = "formset-form-delete"
 
   constructor(prefix) {
     this.prefix = prefix
@@ -17,10 +18,8 @@ class Formset {
     this.emptyForm = this.container.querySelector(`[${Formset.FORMSET_EMPTY_FORM}=${this.prefix}]`)
     this.addButton.addEventListener("click", this.handleAdd.bind(this))
 
-    // add handleDelete and index in forms
-    this.forms.forEach(form => this.updateDeleteButton(form))
-
     this.updateForms()
+    this.forms.forEach(form => this.updateDeleteButton(form))
   }
 
   handleAdd(event) {
@@ -36,15 +35,11 @@ class Formset {
     newForm.querySelectorAll("*").forEach(el => {
       this.updateElementIndex(el, this.prefix, this.totalForms)
     })
-
-    // add handleDelete in button delete
-    this.updateDeleteButton(newForm)
-
     this.formsContainer.appendChild(newForm)
-
     this.totalForms++
-
     this.updateForms()
+
+    this.updateDeleteButton(newForm)
 
     const addEvent = new CustomEvent("formset:add", { detail: { form: newForm } })
     document.dispatchEvent(addEvent)
@@ -111,7 +106,7 @@ class Formset {
 
   updateDeleteButton(form) {
     const checkDelete = form.querySelector("[name$=-DELETE]")
-    const btnDel = form.querySelector("[formset-form-delete]")
+    const btnDel = this.btnDelete(form)
     const hasDelete = checkDelete !== null
 
     if (hasDelete) {
@@ -123,7 +118,7 @@ class Formset {
   updateForms() {
     this.addButton.hidden = this.maxForms === this.totalForms
 
-    this.forms.forEach(form => {
+    this.forms.forEach((form, index) => {
       const checkDelete = form.querySelector("[name$=-DELETE]")
       const labelDelete = form.querySelector("[for$=-DELETE]")
       const hasDelete = checkDelete !== null
@@ -131,7 +126,8 @@ class Formset {
       if (labelDelete)
         labelDelete.hidden = true
 
-      form.querySelector("[formset-form-delete]").hidden = this.minForms === this.totalForms || !hasDelete
+      form.setAttribute("form-index", index)
+      this.btnDelete(form).hidden = this.minForms === this.totalForms || !hasDelete
 
       this.instanceNested(form)
     })
@@ -178,7 +174,8 @@ class Formset {
     [
       Formset.FORMSET_ADD,
       Formset.FORMSET_EMPTY_FORM,
-      Formset.FORMSET_FORMS
+      Formset.FORMSET_FORMS,
+      Formset.FORMSET_DELETE
     ].forEach(attr => {
       if (el.hasAttribute(attr))
         el.setAttribute(attr, el.getAttribute(attr).replace(idRegex, replacement))
@@ -189,6 +186,11 @@ class Formset {
     const parser = new DOMParser();
     const doc = parser.parseFromString(stringHTML, "text/html");
     return doc.body.firstElementChild;
+  }
+
+  btnDelete(form) {
+    const index = form.getAttribute("form-index")
+    return form.querySelector(`[${Formset.FORMSET_DELETE}=${this.prefix}-${index}]`)
   }
 
   get totalForms() {

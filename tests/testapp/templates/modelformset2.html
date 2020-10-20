@@ -25,7 +25,7 @@
 
       <template formset-empty-form="{{ formset.prefix }}">
         {{ formset.empty_form.as_p }}
-        <button formset-form-delete>Delete</button>
+        <button formset-form-delete="{{ formset.empty_form.prefix }}">Delete</button>
       </template>
 
       <button formset-add="{{ formset.prefix }}">Add Form</button>
@@ -36,7 +36,7 @@
           <div formset-form>
             <div class="row">
               {{ form.as_p }}
-              <button formset-form-delete>Delete</button>
+              <button formset-form-delete="{{ form.prefix }}">Delete</button>
             </div>
           </div>
         {% endfor %}

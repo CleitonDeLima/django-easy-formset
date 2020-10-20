@@ -29,7 +29,9 @@ class TestsMixin:
         )
 
     def get_forms(self, container):
-        return container.find_elements_by_css_selector("[formset-form]")
+        return container.find_elements_by_css_selector(
+            "[formset-forms] > [formset-form]"
+        )
 
 
 class TestFormset(TestsMixin):

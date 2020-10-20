@@ -42,14 +42,14 @@ INSTALLED_APPS = [
 
     <template formset-empty-form="{{ formset.prefix }}">
       {{ formset.empty_form.as_p }}
-      <a formset-form-delete>Delete</a>
+      <a formset-form-delete="{{ formset.empty_form.prefix }}>Delete</a>
     </template>
 
     <div formset-forms="{{ formset.prefix }}">
       {% for form in formset.forms %}
         <div formset-form>
           {{ form.as_p }}
-          <a formset-form-delete>Delete</a>
+          <a formset-form-delete="{{ form.prefix }}>Delete</a>
         </div>
       {% endfor %}
     </div>
